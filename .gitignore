@@ -314,3 +314,9 @@ DerivedData
 *.app
 
 
+#Builds
+Builds
+
+# Unity Purchased Assets
+2DLightAssets
+

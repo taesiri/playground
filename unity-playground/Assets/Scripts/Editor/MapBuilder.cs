@@ -32,7 +32,7 @@ namespace Assets.Scripts.Editor
                 {
                     for (var k = 0; k < grid.Depth; k++)
                     {
-                        var newDot = (GameObject)Instantiate(grid.WorldTilePrefab, new Vector3(-2.4f + i * grid.GridSize, -4.21f + j * grid.GridSize, k * grid.GridSize), Quaternion.identity);
+                        var newDot = (GameObject) Instantiate(grid.WorldTilePrefab, new Vector3(i*grid.GridSize, j*grid.GridSize, k*grid.GridSize), Quaternion.identity);
 
 
                         newDot.transform.parent = grid.transform;
