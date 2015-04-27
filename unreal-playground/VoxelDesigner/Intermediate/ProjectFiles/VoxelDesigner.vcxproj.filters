@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<None Include="..\..\VoxelDesigner.uproject" />
+		<Filter Include="Source">
+			<UniqueIdentifier>{635BB69D-F7C9-42B6-AC30-F8AC2C8ACF80}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\VoxelDesigner.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<None Include="..\..\Source\VoxelDesignerEditor.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<Filter Include="Config">
+			<UniqueIdentifier>{C7FBCE74-EEEA-4860-9807-10BEE45866B8}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Config\DefaultEditor.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultEngine.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultInput.ini">
+			<Filter>Config</Filter>
+		</None >
+		<Filter Include="Source\VoxelDesigner">
+			<UniqueIdentifier>{964E380F-568E-49DB-80E4-6FA746E2FB2D}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\VoxelDesigner\VoxelDesigner.Build.cs">
+			<Filter>Source\VoxelDesigner</Filter>
+		</None >
+		<ClCompile Include="..\..\Source\VoxelDesigner\VoxelDesigner.cpp">
+			<Filter>Source\VoxelDesigner</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\VoxelDesigner\VoxelDesigner.h">
+			<Filter>Source\VoxelDesigner</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\VoxelDesigner\VoxelEditor.cpp">
+			<Filter>Source\VoxelDesigner</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\VoxelDesigner\VoxelEditor.h">
+			<Filter>Source\VoxelDesigner</Filter>
+		</ClInclude >
+		<Filter Include="Source\VoxelDesigner\Resources">
+			<UniqueIdentifier>{54D132B3-2F17-433B-96FE-88D62931CFCC}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Source\VoxelDesigner\Resources\Windows">
+			<UniqueIdentifier>{3805A8A0-7681-47BB-9BF8-02BD169DAE33}</UniqueIdentifier>
+		</Filter>
+		<ResourceCompile Include="..\..\Source\VoxelDesigner\Resources\Windows\VoxelDesigner.rc">
+			<Filter>Source\VoxelDesigner\Resources\Windows</Filter>
+		</ResourceCompile >
+	</ItemGroup>
+</Project>
