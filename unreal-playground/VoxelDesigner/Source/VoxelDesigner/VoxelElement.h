@@ -21,5 +21,7 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	
+	UPROPERTY(VisibleDefaultsOnly, Category = VoxelElement)
+	class UStaticMeshComponent* VoxelMeshComponent;
 	
 };

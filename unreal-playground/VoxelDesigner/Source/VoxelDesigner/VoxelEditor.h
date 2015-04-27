@@ -21,7 +21,8 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VoxelEditorSettings)
-	TSubclassOf<class AVoxelElement> VoxelElement;
+	TSubclassOf< class AVoxelElement> VoxelElement;
+
 	
 protected:
 

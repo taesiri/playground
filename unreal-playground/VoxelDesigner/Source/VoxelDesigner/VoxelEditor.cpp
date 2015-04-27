@@ -2,6 +2,7 @@
 
 #include "VoxelDesigner.h"
 #include "VoxelEditor.h"
+#include "VoxelElement.h"
 
 
 // Sets default values
@@ -36,7 +37,7 @@ void AVoxelEditor::Tick( float DeltaTime )
 bool AVoxelEditor::EnableTouchscreenMovement(UInputComponent* InputComponent)
 {
 
-	bool bResult;
+	bool bResult = false;
 	if (FPlatformMisc::GetUseVirtualJoysticks() || GetDefault<UInputSettings>()->bUseMouseForTouch){
 
 
@@ -54,6 +55,34 @@ bool AVoxelEditor::EnableTouchscreenMovement(UInputComponent* InputComponent)
 void AVoxelEditor::BeginTouch(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Touch Begin event"));
+
+
+	FHitResult HitResult;
+	GetWorld()->GetFirstPlayerController()->GetHitResultUnderFingerByChannel(FingerIndex, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, HitResult);
+
+
+	if (VoxelElement != NULL)  
+	{
+
+		const FRotator SpawnRotation = FRotator();
+		const FVector SpawnLocation = FVector(((int)HitResult.Location.X / 100)* 100.0f, ((int)HitResult.Location.Y / 100)* 100.0f, ((int)HitResult.Location.Z / 100)* 100.0f);
+		FActorSpawnParameters SpawnParams;
+
+		UWorld* const World = GetWorld();
+
+		if (World != NULL) 
+		{
+
+
+
+			World->SpawnActor<AVoxelElement>(VoxelElement, SpawnLocation, SpawnRotation, SpawnParams);
+
+		}
+	}
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, HitResult.Location.ToString());
+
+
 }
 void AVoxelEditor::EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location) 
 {
