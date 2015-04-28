@@ -64,7 +64,9 @@ void AVoxelEditor::BeginTouch(const ETouchIndex::Type FingerIndex, const FVector
 	if (VoxelElement != NULL)  
 	{
 
-		const FRotator SpawnRotation = FRotator();
+        const FVector eulerAngles = FVector(0,0,0);
+        const FRotator SpawnRotation = FRotator::MakeFromEuler(eulerAngles);
+        
 		const FVector SpawnLocation = FVector(((int)HitResult.Location.X / 100)* 100.0f, ((int)HitResult.Location.Y / 100)* 100.0f, ((int)HitResult.Location.Z / 100)* 100.0f);
 		FActorSpawnParameters SpawnParams;
 
