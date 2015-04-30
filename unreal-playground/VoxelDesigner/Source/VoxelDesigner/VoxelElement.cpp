@@ -10,9 +10,9 @@ AVoxelElement::AVoxelElement()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//VoxelMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VoxelMesh"));
+	VoxelMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Voxel Mesh"));
 
-	//RootComponent = VoxelMeshComponent;
+	RootComponent = VoxelMeshComponent;
 
 
 }

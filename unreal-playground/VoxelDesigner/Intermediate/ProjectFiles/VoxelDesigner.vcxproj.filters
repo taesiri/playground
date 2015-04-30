@@ -52,14 +52,18 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\VoxelDesigner\VoxelElement.cpp" />
     <ClCompile Include="..\..\Source\VoxelDesigner\WorldMap.cpp">
+      <Filter>Source\VoxelDesigner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\VoxelDesigner\VoxelElement.cpp">
       <Filter>Source\VoxelDesigner</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\VoxelDesigner\VoxelElement.h" />
     <ClInclude Include="..\..\Source\VoxelDesigner\WorldMap.h">
+      <Filter>Source\VoxelDesigner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\VoxelDesigner\VoxelElement.h">
       <Filter>Source\VoxelDesigner</Filter>
     </ClInclude>
   </ItemGroup>

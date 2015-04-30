@@ -11,7 +11,6 @@ AVoxelEditor::AVoxelEditor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	
 
 }
 
@@ -24,6 +23,13 @@ void AVoxelEditor::BeginPlay()
 
 	EnableTouchscreenMovement(InputComponent);
 	
+
+
+	if (MapInstance == NULL)
+	{
+
+	}
+
 }
 
 // Called every frame
@@ -60,34 +66,23 @@ void AVoxelEditor::BeginTouch(const ETouchIndex::Type FingerIndex, const FVector
 		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Touch Begin event"));
 	}
 
-	FHitResult HitResult;
-	GetWorld()->GetFirstPlayerController()->GetHitResultUnderFingerByChannel(FingerIndex, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, HitResult);
 
 
-	if (VoxelElement != NULL)  
+
+	if (MapInstance != NULL) 
 	{
+		FHitResult HitResult;
+		GetWorld()->GetFirstPlayerController()->GetHitResultUnderFingerByChannel(FingerIndex, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, HitResult);
 
-        const FVector eulerAngles = FVector(0,0,0);
-        const FRotator SpawnRotation = FRotator::MakeFromEuler(eulerAngles);
-        
-		const FVector SpawnLocation = FVector(((int)HitResult.Location.X / 100)* 100.0f, ((int)HitResult.Location.Y / 100)* 100.0f, ((int)HitResult.Location.Z / 100)* 100.0f);
-		FActorSpawnParameters SpawnParams;
 
-		UWorld* const World = GetWorld();
 
-		if (World != NULL) 
+		MapInstance->DeployVoxel(HitResult);
+
+
+		if (DisplayDebugInformation)
 		{
-
-
-
-			World->SpawnActor<AVoxelElement>(VoxelElement, SpawnLocation, SpawnRotation, SpawnParams);
-
+			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, HitResult.Location.ToString());
 		}
-	}
-
-	if (DisplayDebugInformation)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, HitResult.Location.ToString());
 	}
 
 }

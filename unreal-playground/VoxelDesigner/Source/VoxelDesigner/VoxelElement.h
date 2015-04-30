@@ -23,5 +23,9 @@ public:
 	
 	UPROPERTY(VisibleDefaultsOnly, Category = VoxelElement)
 	class UStaticMeshComponent* VoxelMeshComponent;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = VoxelElement)
+	FVector VoxelIndex;
+
 	
 };

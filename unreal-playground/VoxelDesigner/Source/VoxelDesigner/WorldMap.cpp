@@ -15,27 +15,31 @@ AWorldMap::AWorldMap()
 	WorldHeight = 32;
 	WorldWidth = 32;
 	WorldDepth = 32;
+	TileSize = 100;
 
 	MapSceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Main Scene Componenet"));
+	WorldVoxelMeshes = CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("Instance Static Mesh Component"));
 	RootComponent = MapSceneComponent;
 
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> StaticCubeMesh(TEXT("StaticMesh'/Game/Shapes/Shape_Cube'"));
-	GroundMesh = StaticCubeMesh.Object;
+	CubeStaticMesh = StaticCubeMesh.Object;
 
 	GroundMeshComponenet = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Ground Mesh"));
 
 
-	GroundMeshComponenet->SetRelativeScale3D(FVector(WorldHeight, WorldWidth, 1));
-	GroundMeshComponenet->RelativeLocation =FVector(0, 0, 0);
+	GroundMeshComponenet->SetRelativeScale3D(FVector(WorldHeight, WorldWidth, 0.1));
+	GroundMeshComponenet->RelativeLocation = FVector(WorldHeight / 2 * 100, WorldWidth / 2 * 100, -0.1);
 
-
-	GroundMeshComponenet->SetStaticMesh(GroundMesh);
+	GroundMeshComponenet->SetStaticMesh(CubeStaticMesh);
 	GroundMeshComponenet->AttachParent= MapSceneComponent;
 	
 
-	
+	WorldVoxelMeshes->SetStaticMesh(CubeStaticMesh);
+	WorldVoxelMeshes->AttachParent = MapSceneComponent;
 
+	WorldArrayData = new AVoxelElement*[100];
+	
 }
 
 // Called when the game starts or when spawned
@@ -43,7 +47,8 @@ void AWorldMap::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GroundMeshComponenet->SetRelativeScale3D(FVector(WorldHeight, WorldWidth, 1));
+	GroundMeshComponenet->SetRelativeScale3D(FVector(WorldHeight, WorldWidth, 0.1));
+	GroundMeshComponenet->RelativeLocation = FVector(WorldHeight / 2 * 100, WorldWidth / 2 * 100, -0.1);
 	
 }
 
@@ -51,10 +56,73 @@ void AWorldMap::BeginPlay()
 void AWorldMap::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
 }
 
 void AWorldMap::UpdateScale(FVector newScale)
+{	
+	GroundMeshComponenet->SetRelativeScale3D(FVector(newScale.X, newScale.Y, 0.1));
+
+	WorldHeight = newScale.X;
+	WorldWidth = newScale.Y;
+	WorldDepth = newScale.Z;
+
+	WorldArrayData = new AVoxelElement*[(int)FVector::DotProduct(newScale, FVector(1, 1, 1))];
+
+	GroundMeshComponenet->RelativeLocation = FVector(WorldHeight / 2 * 100, WorldWidth / 2 * 100, -0.1);
+
+}
+
+void AWorldMap::DeployVoxel(FHitResult HitResult)
 {
-	GroundMeshComponenet->SetRelativeScale3D(newScale);
+
+	const FVector eulerAngles = FVector(0, 0, 0);
+	const FRotator SpawnRotation = FRotator::MakeFromEuler(eulerAngles);
+
+
+	const FVector SpawnLocation = FVector((int)(HitResult.Location.X / 100)* 100.0f + TileSize / 2, (int)(HitResult.Location.Y / 100)* 100.0f + TileSize / 2, (int)(HitResult.Location.Z / 100)* 100.0f);
+	FActorSpawnParameters SpawnParams;
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, (HitResult.Location).ToString());
+
+
+	UWorld* const World = GetWorld();
+
+	if (World != NULL)
+	{
+		AVoxelElement* possibleVoxelElement = Cast<AVoxelElement>(HitResult.Actor.Get());
+
+		if (possibleVoxelElement != NULL)
+		{
+			FVector delta = (HitResult.Location / 100) - possibleVoxelElement->VoxelIndex;
+			delta.Normalize();
+			
+
+			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, delta.ToString()  );
+
+			FVector PropperSpawnLocation = HitResult.Location + (delta);
+			PropperSpawnLocation = FVector((int)(PropperSpawnLocation.X / 100)* 100.0f + TileSize / 2, (int)(PropperSpawnLocation.Y / 100)* 100.0f + TileSize / 2, (int)(PropperSpawnLocation.Z / 100)* 100.0f);
+
+
+
+			auto myElement = World->SpawnActor<AVoxelElement>(VoxelElement, PropperSpawnLocation, SpawnRotation, SpawnParams);
+			myElement->VoxelIndex = SpawnLocation / 100;
+
+		}
+		else {
+
+			auto myElement = World->SpawnActor<AVoxelElement>(VoxelElement, SpawnLocation, SpawnRotation, SpawnParams);
+			myElement->VoxelIndex = SpawnLocation / 100;
+		}
+	}
+
+}
+
+
+
+	
+
+
+void AWorldMap::ClearMap()
+{
+
 }

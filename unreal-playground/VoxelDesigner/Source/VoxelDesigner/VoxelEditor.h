@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "WorldMap.h"
 #include "GameFramework/Actor.h"
 #include "VoxelEditor.generated.h"
 
@@ -20,12 +21,14 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Voxel Editor Settings")
-	TSubclassOf< class AVoxelElement> VoxelElement;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Voxel Editor Settings")
 	bool DisplayDebugInformation = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Voxel Editor Settings")
+	AWorldMap* MapInstance;
+
 	
 protected:
 
