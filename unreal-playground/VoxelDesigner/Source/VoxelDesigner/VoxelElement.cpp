@@ -13,6 +13,8 @@ AVoxelElement::AVoxelElement()
 	//VoxelMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VoxelMesh"));
 
 	//RootComponent = VoxelMeshComponent;
+
+
 }
 
 // Called when the game starts or when spawned

@@ -20,9 +20,12 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VoxelEditorSettings)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Voxel Editor Settings")
 	TSubclassOf< class AVoxelElement> VoxelElement;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Voxel Editor Settings")
+	bool DisplayDebugInformation = false;
 	
 protected:
 

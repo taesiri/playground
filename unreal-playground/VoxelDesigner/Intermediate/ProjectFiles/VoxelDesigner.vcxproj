@@ -68,7 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\VoxelDesigner\VoxelElement.cpp" />
+    <ClCompile Include="..\..\Source\VoxelDesigner\WorldMap.cpp" />
     <ClInclude Include="..\..\Source\VoxelDesigner\VoxelElement.h" />
+    <ClInclude Include="..\..\Source\VoxelDesigner\WorldMap.h" />
     <None Include="..\..\VoxelDesigner.uproject" />
     <None Include="..\..\Source\VoxelDesigner.Target.cs" />
     <None Include="..\..\Source\VoxelDesignerEditor.Target.cs" />

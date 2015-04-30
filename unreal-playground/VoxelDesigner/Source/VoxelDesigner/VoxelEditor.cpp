@@ -54,8 +54,11 @@ bool AVoxelEditor::EnableTouchscreenMovement(UInputComponent* InputComponent)
 
 void AVoxelEditor::BeginTouch(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Touch Begin event"));
 
+	if (DisplayDebugInformation)
+	{ 
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Touch Begin event"));
+	}
 
 	FHitResult HitResult;
 	GetWorld()->GetFirstPlayerController()->GetHitResultUnderFingerByChannel(FingerIndex, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, HitResult);
@@ -82,16 +85,25 @@ void AVoxelEditor::BeginTouch(const ETouchIndex::Type FingerIndex, const FVector
 		}
 	}
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, HitResult.Location.ToString());
-
+	if (DisplayDebugInformation)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, HitResult.Location.ToString());
+	}
 
 }
+
 void AVoxelEditor::EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location) 
 {
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Touch End event"));
-
+	if (DisplayDebugInformation)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Touch End event"));
+	}
 }
+
 void AVoxelEditor::TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location) 
 {
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Touch Update event"));
+	if (DisplayDebugInformation)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Touch Update event"));
+	}
 }
