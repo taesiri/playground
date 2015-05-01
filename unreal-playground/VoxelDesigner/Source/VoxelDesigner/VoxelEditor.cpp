@@ -23,12 +23,15 @@ void AVoxelEditor::BeginPlay()
 
 	EnableTouchscreenMovement(InputComponent);
 	
+	CurrentEditorState = EditorStates::deployVoxel;
 
 
 	if (MapInstance == NULL)
 	{
 
 	}
+
+
 
 }
 
@@ -66,25 +69,17 @@ void AVoxelEditor::BeginTouch(const ETouchIndex::Type FingerIndex, const FVector
 		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Touch Begin event"));
 	}
 
-
-
-
-	if (MapInstance != NULL) 
-	{
-		FHitResult HitResult;
-		GetWorld()->GetFirstPlayerController()->GetHitResultUnderFingerByChannel(FingerIndex, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, HitResult);
-
-
-
-		MapInstance->DeployVoxel(HitResult);
-
-
-		if (DisplayDebugInformation)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, HitResult.Location.ToString());
-		}
+	switch (CurrentEditorState)
+	{	
+	case EditorStates::deployVoxel:
+		DeployCommand(FingerIndex, Location);
+		break;
+	case EditorStates::rePaintVoxel:
+		RePaintCommand(FingerIndex, Location);
+		break;
+	default:
+		break;
 	}
-
 }
 
 void AVoxelEditor::EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location) 
@@ -101,4 +96,42 @@ void AVoxelEditor::TouchUpdate(const ETouchIndex::Type FingerIndex, const FVecto
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("Touch Update event"));
 	}
+}
+
+void AVoxelEditor::DeployCommand(const ETouchIndex::Type FingerIndex, const FVector Location)
+{
+	if (MapInstance != NULL)
+	{
+		FHitResult HitResult;
+		GetWorld()->GetFirstPlayerController()->GetHitResultUnderFingerByChannel(FingerIndex, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, HitResult);
+
+		MapInstance->DeployVoxel(HitResult);
+
+
+		if (DisplayDebugInformation)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, HitResult.Location.ToString());
+		}
+	}
+}
+void AVoxelEditor::RePaintCommand(const ETouchIndex::Type FingerIndex, const FVector Location)
+{
+	if (MapInstance != NULL)
+	{
+		FHitResult HitResult;
+		GetWorld()->GetFirstPlayerController()->GetHitResultUnderFingerByChannel(FingerIndex, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, HitResult);
+
+		MapInstance->RepaintVoxel(HitResult, selectedMat);
+
+
+		if (DisplayDebugInformation)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, HitResult.Location.ToString());
+		}
+	}
+}
+
+void AVoxelEditor::SwitchEditorState(EditorStates newState)
+{
+	CurrentEditorState = newState;
 }

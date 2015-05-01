@@ -34,7 +34,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "Deplay", CompactNodeTitle = "DeployVoxel", Keywords = "Deply Voxel"), Category = Game)
 	void DeployVoxel(FHitResult HitResult);
-
+	
+	UFUNCTION(BlueprintCallable, meta = (FriendlyName = "Repaint", CompactNodeTitle = "RepaintVoxel", Keywords = "Repaint Voxel"), Category = Game)
+	void RepaintVoxel(FHitResult HitResult, UMaterialInterface* selectedMat);
 
 protected:
 

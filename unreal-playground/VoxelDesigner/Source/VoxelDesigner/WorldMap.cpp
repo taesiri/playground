@@ -59,13 +59,12 @@ void AWorldMap::UpdateScale(FVector newScale)
 	WorldHeight = newScale.X;
 	WorldWidth = newScale.Y;
 	WorldDepth = newScale.Z;
-
 	//WorldArrayData = new AVoxelElement*[(int)FVector::DotProduct(newScale, FVector(1, 1, 1))];
 
 	GroundMeshComponenet->SetRelativeScale3D(FVector(WorldHeight, WorldWidth, 0.1));
 	GroundMeshComponenet->RelativeLocation = FVector(WorldHeight / 2 * 100, WorldWidth / 2 * 100, -0.1);
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Blue, TEXT("RESCALED!"));
+	//GetWorld()->GetFirstPlayerController()->GetPawn()->SetActorLocation(FVector(WorldHeight / 2 * 100, WorldWidth / 2 * 100, 150));
 }
 
 void AWorldMap::DeployVoxel(FHitResult HitResult)
@@ -110,7 +109,31 @@ void AWorldMap::DeployVoxel(FHitResult HitResult)
 
 }
 
+void AWorldMap::RepaintVoxel(FHitResult HitResult, UMaterialInterface* selectedMat)
+{
+	const FVector eulerAngles = FVector(0, 0, 0);
+	const FRotator SpawnRotation = FRotator::MakeFromEuler(eulerAngles);
+	const FVector SpawnLocation = FVector((int)(HitResult.Location.X / 100)* 100.0f + TileSize / 2, (int)(HitResult.Location.Y / 100)* 100.0f + TileSize / 2, (int)(HitResult.Location.Z / 100)* 100.0f);
+	FActorSpawnParameters SpawnParams;
 
+
+	if (HitResult.IsValidBlockingHit())
+	{
+		UWorld* const World = GetWorld();
+
+		if (World != NULL)
+		{
+			AVoxelElement* possibleVoxelElement = Cast<AVoxelElement>(HitResult.Actor.Get());
+
+			if (possibleVoxelElement != NULL)
+			{
+				possibleVoxelElement->VoxelMeshComponent->SetMaterial(0, selectedMat);
+			}
+			
+		}
+	}
+
+}
 
 void AWorldMap::ClearMap()
 {
